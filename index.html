@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08111f" />
+    <meta name="description" content="سرفصل‌های اصلی دوره Introduction to Git and GitHub" />
+    <title>سرفصل‌های دوره | Introduction to Git and GitHub</title>
+
+    <!-- فونت فارسی -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" />
+
+    <!-- استایل اصلی -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- نوار پیشرفت -->
+    <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+    <div class="container">
+
+        <!-- نوار بالا -->
+        <nav class="topbar" aria-label="ناوبری سریع">
+            <a class="topbar__brand" href="#top">📘 Introduction to Git and GitHub</a>
+            <div class="topbar__links">
+                <a href="#top">🏠 صفحه اول</a>
+                <a href="#toc">🗺️ فهرست</a>
+                <a href="#footer">⬇️ پایین</a>
+            </div>
+        </nav>
+        <div id="top"></div>
+
+        <!-- ============================================================
+             هیرو
+             ============================================================ -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-label">📚 سرفصل‌های دوره</div>
+                <h1>Introduction to <span>Git and GitHub</span></h1>
+                <p class="hero-subtitle">
+                    ساختار کامل دوره شامل مباحث پایه تا پیشرفته، کار تیمی و مدیریت پروژه
+                </p>
+                <div class="hero-badge">۴ ماژول • ۹ بخش اصلی • پروژه‌محور</div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             فهرست سریع
+             ============================================================ -->
+        <section class="toc" id="toc">
+            <h2>🗺️ سرفصل‌های اصلی</h2>
+            <ol>
+                <li><a href="#intro">📖 مقدمه و مفاهیم پایه</a></li>
+                <li><a href="#git-basics">🐙 آشنایی با Git</a></li>
+                <li><a href="#advanced-git">⚙️ کار پیشرفته با Git</a></li>
+                <li><a href="#undo">↩️ بازگردانی تغییرات</a></li>
+                <li><a href="#branching">🌿 شاخه‌ها و ادغام</a></li>
+                <li><a href="#github">🐙 کار با مخازن راه‌دور (GitHub)</a></li>
+                <li><a href="#conflict">⚡ حل تعارضات و همکاری پیشرفته</a></li>
+                <li><a href="#collaboration">🤝 همکاری تیمی با GitHub</a></li>
+                <li><a href="#wrapup">🎓 جمع‌بندی و ادامه مسیر</a></li>
+            </ol>
+        </section>
+
+        <!-- ============================================================
+             ۱. مقدمه
+             ============================================================ -->
+        <section class="section blue" id="intro">
+            <h2 class="section-title">📖 ۱. مقدمه و مفاهیم پایه</h2>
+            <ul>
+                <li>معرفی دوره و اهداف</li>
+                <li>آشنایی با کنترل نسخه (Version Control)</li>
+                <li>تاریخچه و اهمیت نگهداری نسخه‌های مختلف</li>
+                <li>ابزارهای diff و patch – استخراج و اعمال تغییرات</li>
+                <li>کاربرد عملی diff و patch در مدیریت فایل‌ها</li>
+            </ul>
+            <div class="box note">
+                <p>💡 در این بخش با مفاهیم بنیادین سیستم‌های کنترل نسخه و ابزارهای خط فرمان مرتبط آشنا می‌شوید.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ۲. آشنایی با Git
+             ============================================================ -->
+        <section class="section gold" id="git-basics">
+            <h2 class="section-title">🐙 ۲. آشنایی با Git</h2>
+            <ul>
+                <li>Git چیست و چه تفاوتی با سایر VCSها دارد؟</li>
+                <li>نصب و راه‌اندازی Git روی سیستم‌عامل‌های مختلف</li>
+                <li>اولین قدم‌ها: ایجاد مخزن (init)، افزودن فایل (add) و ثبت تغییرات (commit)</li>
+                <li>ردیابی فایل‌ها و مشاهده وضعیت مخزن</li>
+                <li>گردش کار پایه Git – کار با Staging Area</li>
+                <li>ساختار و اصول نوشتن پیام commit</li>
+            </ul>
+            <div class="box important">
+                <p>📌 پس از این بخش، می‌توانید مخزن محلی ایجاد کرده و تغییرات خود را به‌صورت commit ثبت کنید.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ۳. کار پیشرفته با Git
+             ============================================================ -->
+        <section class="section green" id="advanced-git">
+            <h2 class="section-title">⚙️ ۳. کار پیشرفته با Git</h2>
+            <ul>
+                <li>رد کردن Staging Area با استفاده از <code>git commit -a</code></li>
+                <li>دریافت اطلاعات دقیق از تغییرات (<code>git log</code>، <code>git diff</code>)</li>
+                <li>حذف و تغییر نام فایل‌ها با <code>git rm</code> و <code>git mv</code></li>
+            </ul>
+            <div class="box note">
+                <p>💡 این مباحث به شما کمک می‌کند کارایی بیشتری در کار روزمره با Git داشته باشید.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ۴. بازگردانی تغییرات
+             ============================================================ -->
+        <section class="section red" id="undo">
+            <h2 class="section-title">↩️ ۴. بازگردانی تغییرات</h2>
+            <ul>
+                <li>لغو تغییرات قبل از commit (<code>git restore</code>)</li>
+                <li>اصلاح آخرین commit با <code>git commit --amend</code></li>
+                <li>بازگشت به نسخه‌های قبلی با <code>git revert</code> و <code>git reset</code></li>
+                <li>شناسایی commitها با هش و ارجاعات نسبی</li>
+            </ul>
+            <div class="box warning">
+                <p>⚠️ با روش‌های امن و پرخطر بازگردانی تغییرات آشنا می‌شوید تا بتوانید اشتباهات را به‌درستی مدیریت کنید.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ۵. شاخه‌ها و ادغام
+             ============================================================ -->
+        <section class="section purple" id="branching">
+            <h2 class="section-title">🌿 ۵. شاخه‌ها (Branches) و ادغام (Merging)</h2>
+            <ul>
+                <li>شاخه چیست و چرا از آن استفاده می‌کنیم؟</li>
+                <li>ایجاد و جابه‌جایی بین شاخه‌ها (<code>git branch</code> و <code>git switch</code>)</li>
+                <li>کار با چند شاخه به‌طور همزمان</li>
+                <li>ادغام شاخه‌ها با <code>git merge</code></li>
+                <li>مدیریت تعارضات (Merge Conflicts) و حل آن‌ها</li>
+            </ul>
+            <div class="box important">
+                <p>📌 این بخش برای کار تیمی بسیار حیاتی است و شما را با الگوهای رایج توسعه آشنا می‌کند.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ۶. کار با مخازن راه‌دور (GitHub)
+             ============================================================ -->
+        <section class="section orange" id="github">
+            <h2 class="section-title">🐙 ۶. کار با مخازن راه‌دور (GitHub)</h2>
+            <ul>
+                <li>معرفی GitHub و امکانات آن</li>
+                <li>تعامل پایه با GitHub – clone، push، pull</li>
+                <li>مفهوم Remote و مدیریت آن‌ها</li>
+                <li>واکشی تغییرات جدید با <code>git fetch</code></li>
+                <li>به‌روزرسانی مخزن محلی با <code>git pull</code></li>
+                <li>SSH و API Keys – اتصال امن به GitHub</li>
+            </ul>
+            <div class="box note">
+                <p>💡 با این مباحث، پروژه‌های خود را به GitHub متصل کرده و با دیگران به اشتراک می‌گذارید.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ۷. حل تعارضات و همکاری پیشرفته
+             ============================================================ -->
+        <section class="section" id="conflict">
+            <h2 class="section-title">⚡ ۷. حل تعارضات و همکاری پیشرفته</h2>
+            <ul>
+                <li>گردش کار Pull-Merge-Push در همکاری تیمی</li>
+                <li>ارسال شاخه‌ها به مخزن راه‌دور (<code>git push</code>)</li>
+                <li>ری‌بیس (Rebase) و کاربردهای آن</li>
+                <li>مقایسه ری‌بیس با ادغام (merge)</li>
+                <li>بهترین روش‌های همکاری با Git و GitHub</li>
+            </ul>
+            <div class="box warning">
+                <p>⚠️ ری‌بیس ابزاری قدرتمند است، اما باید با احتیاط از آن استفاده کرد تا تاریخچه پروژه دچار مشکل نشود.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ۸. همکاری تیمی با GitHub
+             ============================================================ -->
+        <section class="section blue" id="collaboration">
+            <h2 class="section-title">🤝 ۸. همکاری تیمی با GitHub</h2>
+            <ul>
+                <li>گردش کار Pull Request – ایجاد، بررسی و به‌روزرسانی</li>
+                <li>فشرده‌سازی commitها (Squash) قبل از ادغام</li>
+                <li>کد بازبینی (Code Review) و اهمیت آن</li>
+                <li>مدیریت پروژه با GitHub – Issueها و Project Board</li>
+                <li>یکپارچه‌سازی مداوم (Continuous Integration) با GitHub Actions</li>
+            </ul>
+            <div class="box important">
+                <p>📌 این بخش شما را برای مشارکت در پروژه‌های متن‌باز و تیم‌های نرم‌افزاری آماده می‌کند.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ۹. جمع‌بندی
+             ============================================================ -->
+        <section class="section green" id="wrapup">
+            <h2 class="section-title">🎓 ۹. جمع‌بندی و ادامه مسیر</h2>
+            <ul>
+                <li>مرور مهارت‌های کسب‌شده</li>
+                <li>ارتباط با هم‌دوره‌ای‌ها و به‌اشتراک‌گذاری تجربیات</li>
+                <li>نگاهی به دوره‌های بعدی و مسیر یادگیری</li>
+            </ul>
+            <div class="box success">
+                <p>🎉 با اتمام این دوره، شما به یک کاربر حرفه‌ای Git و GitHub تبدیل خواهید شد.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             بخش اجتماعی
+             ============================================================ -->
+        <section class="social">
+            <h2>🌐 با ما همراه باشید</h2>
+            <p>برای دریافت آخرین مطالب، پرسش و پاسخ و اطلاع از رویدادهای مرتبط، ما را در شبکه‌های اجتماعی دنبال کنید.</p>
+            <div class="buttons">
+                <a class="btn telegram" href="https://t.me/matcub" target="_blank">📱 تلگرام</a>
+                <a class="btn instagram" href="https://www.instagram.com/matcub_official/" target="_blank">📸 اینستاگرام</a>
+                <a class="btn btn-blue" href="https://www.linkedin.com/in/mohammadfallah1373/" target="_blank">🔗 لینکدین</a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             فوتر
+             ============================================================ -->
+        <footer id="footer" class="site-footer">
+            📘 Introduction to Git and GitHub • سرفصل‌های کامل دوره
+        </footer>
+
+    </div> <!-- end .container -->
+
+</body>
+</html>
