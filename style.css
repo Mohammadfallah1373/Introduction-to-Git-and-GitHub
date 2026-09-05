@@ -720,6 +720,7 @@ code {
      .solution    🗝️ پاسخ                   پاسخ تمرین (معمولاً داخل details)
      .output      🖥️ خروجی                  خروجی اجرای کد/دستور
      .resource    📚 منبع بیشتر              لینک یا منبع تکمیلی
+     .success     ✅ موفقیت                  پیام موفقیت‌آمیز، تبریک، پایان مرحله
 
    استفاده‌ی ساده (آیکون/عنوان خودکار):
      <div class="box note"><p>متن نکته...</p></div>
@@ -791,6 +792,9 @@ code {
 
 .box.resource  { --box-color: var(--color-resource);  --box-bg: rgba(79, 195, 247, .08); }
 .box.resource::before  { content: "📚 منبع بیشتر"; }
+
+.box.success   { --box-color: var(--color-success-box); --box-bg: rgba(66, 211, 146, .08); }
+.box.success::before   { content: "✅ موفقیت"; }
 
 /* override دستی عنوان با data-title (اولویت با این است) */
 .box[data-title]::before { content: attr(data-title); }
