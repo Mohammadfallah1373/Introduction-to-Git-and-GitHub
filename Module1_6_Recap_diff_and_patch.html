@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08111f" />
+    <meta name="description" content="آشنایی با دستورات diff و patch – مقایسه و اعمال تغییرات در فایل‌ها" />
+    <title>دستورات diff و patch | درسنامه حرفه‌ای</title>
+
+    <!-- فونت فارسی -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" />
+
+    <!-- استایل اصلی -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- نوار پیشرفت -->
+    <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+    <div class="container">
+
+        <!-- نوار بالا -->
+        <nav class="topbar" aria-label="ناوبری سریع درسنامه">
+            <a class="topbar__brand" href="#top">📘 درسنامه</a>
+            <div class="topbar__links">
+                <a href="#toc">🗺️ فهرست</a>
+                <a href="#footer">⬇️ پایین صفحه</a>
+            </div>
+        </nav>
+        <div id="top"></div>
+
+        <!-- ============================================================
+             هیرو
+             ============================================================ -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-label">🧑‍💻 Git & Diff Tools</div>
+                <h1>دستورات <span>diff</span> و <span>patch</span></h1>
+                <p class="hero-subtitle">
+                    با دستور <span class="en">diff</span> تفاوت بین دو فایل را پیدا کنید و با <span class="en">patch</span> آن تغییرات را روی فایل اصلی اعمال کنید
+                </p>
+                <div class="hero-badge">
+                    📂 diff • diff -u • patch • patch -p1 • diff -r
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             فهرست مطالب
+             ============================================================ -->
+        <section class="toc" id="toc">
+            <h2>🗺️ مسیر یادگیری دستورات <span class="en">diff</span> و <span class="en">patch</span></h2>
+            <ol>
+                <li><a href="#step1">📄 معرفی دستور <span class="en">diff</span></a></li>
+                <li><a href="#step2">🔍 استفاده از <span class="en">diff -u</span> برای مقایسه بهتر</a></li>
+                <li><a href="#step3">📋 مثال اول: مقایسه دو فایل منو</a></li>
+                <li><a href="#step4">🧩 معرفی دستور <span class="en">patch</span></a></li>
+                <li><a href="#step5">📄 مثال دوم: اصلاح فایل <span class="en">hello_world</span></a></li>
+                <li><a href="#step6">📚 منابع بیشتر برای مطالعه</a></li>
+            </ol>
+        </section>
+
+        <!-- ============================================================
+             گام ۱ – معرفی دستور diff
+             ============================================================ -->
+        <section class="section" id="step1">
+            <h2 class="section-title">📄 گام ۱: معرفی دستور <span class="en">diff</span></h2>
+            <p>
+                دستور <strong><span class="en">diff</span></strong> یکی از ابزارهای خط فرمان در لینوکس و یونیکس است که برای <strong>پیدا کردن تفاوت‌ها بین دو فایل</strong> استفاده می‌شود. این دستور به شما کمک می‌کند تا ببینید دقیقاً چه چیزی در دو نسخه از یک فایل تغییر کرده است.
+            </p>
+            <p>
+                اما استفاده از <code>diff</code> به تنهایی (بدون هیچ پرچمی) کمی <strong>سخت و نامفهوم</strong> است، چون خروجی آن به‌صورت پیش‌فرض خیلی مختصر و بدون زمینه (<span class="en">context</span>) است و ممکن است به‌راحتی قابل درک نباشد.
+            </p>
+            <div class="box note">
+                <p>💡 <strong>نکته:</strong> <span class="en">diff</span> به‌طور پیش‌فرض فقط خط‌های متفاوت را نشان می‌دهد، بدون اینکه خطوط اطراف را هم ببینیم تا بفهمیم تغییر در چه بخشی از فایل رخ داده است.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۲ – diff -u
+             ============================================================ -->
+        <section class="section gold" id="step2">
+            <h2 class="section-title">🔍 گام ۲: استفاده از <span class="en">diff -u</span> برای مقایسه بهتر</h2>
+            <p>
+                برای اینکه خروجی <span class="en">diff</span> را <strong>خوانا‌تر</strong> و <strong>مفیدتر</strong> کنیم، از پرچم <strong><code>-u</code></strong> (مخفف <span class="en">unified</span>) استفاده می‌کنیم:
+            </p>
+            <div class="command">
+                <code>$ diff -u file1.txt file2.txt</code>
+            </div>
+            <p>
+                این دستور دو فایل را <strong>خط‌به‌خط</strong> مقایسه می‌کند و خط‌های متفاوت را در کنار هم (<span class="en">side-by-side</span>) در یک خروجی یکپارچه نشان می‌دهد.
+            </p>
+            <p>
+                مزیت بزرگ <code>diff -u</code> این است که <strong>زمینه (<span class="en">context</span>)</strong> بیشتری را نشان می‌دهد؛ یعنی چند خط قبل و بعد از تغییرات را هم می‌بینیم تا متوجه شویم تغییر دقیقاً در کجای فایل رخ داده است.
+            </p>
+            <div class="box important">
+                <p>⚡ <strong>ترفند:</strong> همیشه از <code>diff -u</code> استفاده کن، چون خروجی آن بسیار واضح‌تر از <code>diff</code> معمولی است و درک تغییرات را آسان‌تر می‌کند.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۳ – مثال اول
+             ============================================================ -->
+        <section class="section green" id="step3">
+            <h2 class="section-title">📋 گام ۳: مثال اول – مقایسه دو فایل منو</h2>
+            <p>
+                بیایید با یک مثال ساده، کار با <code>diff -u</code> را تمرین کنیم. فرض کنید دو فایل داریم:
+            </p>
+            <ul>
+                <li><strong><code>menu1.txt</code></strong> – منوی قدیمی</li>
+                <li><strong><code>menu2.txt</code></strong> – منوی جدید</li>
+            </ul>
+
+            <p>محتوای <code>menu1.txt</code> (فایل اول):</p>
+            <div class="command">
+                <pre><code>Menu1:
+Apples
+Bananas
+Oranges
+Pears</code></pre>
+            </div>
+
+            <p>محتوای <code>menu2.txt</code> (فایل دوم):</p>
+            <div class="command">
+                <pre><code>Menu:
+Apples
+Bananas
+Oranges
+Pears</code></pre>
+            </div>
+
+            <p>
+                همان‌طور که می‌بینی، تنها تفاوت این دو فایل این است که در فایل اول کلمه <code>Menu1</code> نوشته شده، اما در فایل دوم کلمه <code>Menu</code> (بدون عدد ۱). حالا بیایید این دو فایل را با <code>diff -u</code> مقایسه کنیم:
+            </p>
+            <div class="command">
+                <code>$ diff -u menu1.txt menu2.txt</code>
+            </div>
+            <div class="command">
+                <pre><code>--- menu1.txt	2024-01-15 10:00:00.000000000 +0000
++++ menu2.txt	2024-01-15 10:05:00.000000000 +0000
+@@ -1,5 +1,5 @@
+-Menu1:
++Menu:
+ Apples
+ Bananas
+ Oranges
+ Pears</code></pre>
+            </div>
+
+            <p>
+                در خروجی می‌بینیم که:
+            </p>
+            <ul>
+                <li>خط <code>-Menu1:</code> یعنی این خط در فایل اول وجود داشته و <strong>حذف شده</strong> است.</li>
+                <li>خط <code>+Menu:</code> یعنی این خط در فایل دوم <strong>اضافه شده</strong> است.</li>
+                <li>بقیه خط‌ها (<span class="en">Apples, Bananas, Oranges, Pears</span>) <strong>بدون تغییر باقی مانده‌اند</strong>.</li>
+            </ul>
+            <div class="box success">
+                <p>✅ <strong>نتیجه:</strong> <span class="en">diff -u</span> به‌وضوح نشان می‌دهد که دقیقاً چه تغییری رخ داده و در کجای فایل است.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۴ – معرفی patch
+             ============================================================ -->
+        <section class="section blue" id="step4">
+            <h2 class="section-title">🧩 گام ۴: معرفی دستور <span class="en">patch</span></h2>
+            <p>
+                دستور <strong><span class="en">patch</span></strong> ابزاری است که برای <strong>اعمال تغییرات (تفاوت‌ها) روی فایل اصلی</strong> استفاده می‌شود. به این صورت که:
+            </p>
+            <ul>
+                <li>شما یک فایل <strong><span class="en">diff</span></strong> دارید که تفاوت بین دو نسخه را نشان می‌دهد.</li>
+                <li>با استفاده از <strong><span class="en">patch</span></strong>، آن تفاوت‌ها را روی فایل اصلی اعمال می‌کنید تا به نسخه جدید تبدیل شود.</li>
+            </ul>
+            <p>
+                این دقیقاً همان کاری است که در درسنامه‌های قبلی انجام دادیم، اما حالا با یک مثال ساده‌تر آن را مرور می‌کنیم.
+            </p>
+            <div class="box note">
+                <p>📌 <strong>نکته:</strong> <span class="en">patch</span> به شما امکان می‌دهد تغییرات را بدون نیاز به ویرایش دستی فایل، به‌صورت خودکار اعمال کنید.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۵ – مثال دوم
+             ============================================================ -->
+        <section class="section purple" id="step5">
+            <h2 class="section-title">📄 گام ۵: مثال دوم – اصلاح فایل <span class="en">hello_world</span></h2>
+            <p>
+                بیایید یک مثال ساده‌تر را با هم مرور کنیم. دو فایل داریم:
+            </p>
+            <ul>
+                <li><strong><code>hello_world.txt</code></strong> – نسخه ساده</li>
+                <li><strong><code>hello_world_long.txt</code></strong> – نسخه طولانی‌تر</li>
+            </ul>
+
+            <p>محتوای <code>hello_world.txt</code> (فایل اصلی):</p>
+            <div class="command">
+                <pre><code>Hello World</code></pre>
+            </div>
+
+            <p>محتوای <code>hello_world_long.txt</code> (نسخه جدید):</p>
+            <div class="command">
+                <pre><code>Hello World
+It's a wonderful day!</code></pre>
+            </div>
+
+            <p>
+                حالا بیایید با <code>diff -u</code> تفاوت را ببینیم و آن را در یک فایل <code>.diff</code> ذخیره کنیم:
+            </p>
+            <div class="command">
+                <code>$ diff -u hello_world.txt hello_world_long.txt &gt; hello_world.diff</code>
+            </div>
+
+            <p>محتوای فایل <code>hello_world.diff</code>:</p>
+            <div class="command">
+                <pre><code>--- hello_world.txt	2019-12-16 19:24:12.556102821 +0900
++++ hello_world_long.txt	2019-12-16 19:24:38.944207773 +0900
+@@ -1 +1,3 @@
+ Hello World
++It's a wonderful day!</code></pre>
+            </div>
+
+            <p>
+                همان‌طور که می‌بینی، خط <code>+It's a wonderful day!</code> نشان می‌دهد که یک خط جدید به فایل اضافه شده است.
+            </p>
+            <p>
+                حالا با استفاده از <strong><span class="en">patch</span></strong>، این تغییر را روی فایل اصلی اعمال می‌کنیم:
+            </p>
+            <div class="command">
+                <code>$ patch hello_world.txt &lt; hello_world.diff</code>
+            </div>
+            <div class="command">
+                <pre><code>patching file hello_world.txt</code></pre>
+            </div>
+
+            <p>
+                اگر حالا محتوای <code>hello_world.txt</code> را ببینیم، تغییرات اعمال شده‌اند:
+            </p>
+            <div class="command">
+                <code>$ cat hello_world.txt</code>
+            </div>
+            <div class="command">
+                <pre><code>Hello World
+It's a wonderful day!</code></pre>
+            </div>
+
+            <p>
+                یعنی با یک دستور ساده، فایل اصلی به‌روزرسانی شد و به نسخه جدید تبدیل گردید.
+            </p>
+            <div class="box important">
+                <p>🚀 <strong>نتیجه:</strong> با استفاده از <span class="en">diff</span> و <span class="en">patch</span>، می‌توانیم تغییرات را به‌راحتی و بدون خطا روی فایل‌های خود اعمال کنیم.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۶ – منابع بیشتر
+             ============================================================ -->
+        <section class="section orange" id="step6">
+            <h2 class="section-title">📚 گام ۶: منابع بیشتر برای مطالعه</h2>
+            <p>
+                دستورات <code>diff</code> و <code>patch</code> قابلیت‌های بیشتری هم دارند که در این درسنامه به آنها نپرداختیم. برخی از این قابلیت‌ها عبارتند از:
+            </p>
+            <ul>
+                <li><strong><code>patch -p1</code></strong> – برای حذف تعداد مشخصی از سطح‌های مسیر (<span class="en">directory levels</span>) هنگام اعمال <span class="en">patch</span> روی پروژه‌های بزرگ.</li>
+                <li><strong><code>diff -r</code></strong> – برای مقایسه بازگشتی (<span class="en">recursive</span>) دو پوشه (دایرکتوری) و پیدا کردن تفاوت‌های بین تمام فایل‌های داخل آن‌ها.</li>
+            </ul>
+            <p>
+                اگر می‌خواهید اطلاعات بیشتری درباره این دستورات و گزینه‌های پیشرفته آن‌ها بدانید، می‌توانید به <strong>صفحات راهنما (<span class="en">man pages</span>)</strong> این دستورات مراجعه کنید:
+            </p>
+            <ul>
+                <li>📖 <strong>مستندات <span class="en">diff</span>:</strong> <a href="http://man7.org/linux/man-pages/man1/diff.1.html" target="_blank">man7.org/diff</a></li>
+                <li>📖 <strong>مستندات <span class="en">patch</span>:</strong> <a href="http://man7.org/linux/man-pages/man1/patch.1.html" target="_blank">man7.org/patch</a></li>
+            </ul>
+            <div class="box note">
+                <p>💡 <strong>نکته:</strong> صفحات راهنما (<span class="en">man pages</span>) یکی از بهترین منابع برای یادگیری دستورات لینوکس هستند و توضیحات کاملی درباره همه گزینه‌های یک دستور ارائه می‌دهند.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             جمع‌بندی و دکمه رفتن به جلسه بعدی
+             ============================================================ -->
+        <section class="section" id="wrapup">
+            <div class="box success">
+                <p>🎉 با اتمام این جلسه، با ابزارهای <span class="en">diff</span> و <span class="en">patch</span> به‌خوبی آشنا شدید و می‌توانید تفاوت‌ها را پیدا کرده و تغییرات را اعمال کنید.</p>
+            </div>
+
+            <!-- دکمه رفتن به صفحه بعدی (جلسه بعدی) -->
+            <div class="buttons" style="margin-top: var(--space-6);">
+                <a class="btn btn-blue" href="Module1_7_test.html">🚀 رفتن به جلسه‌ی بعدی 🚀</a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             بخش اجتماعی
+             ============================================================ -->
+        <section class="social">
+            <h2>🌐 با ما همراه باشید</h2>
+            <p>برای دریافت آخرین مطالب، پرسش و پاسخ و اطلاع از رویدادهای مرتبط، ما را در شبکه‌های اجتماعی دنبال کنید.</p>
+            <div class="buttons">
+                <a class="btn telegram" href="https://t.me/matcub" target="_blank">📱 تلگرام</a>
+                <a class="btn instagram" href="https://www.instagram.com/matcub_official/" target="_blank">📸 اینستاگرام</a>
+                <a class="btn btn-blue" href="https://www.linkedin.com/in/mohammadfallah1373/" target="_blank">🔗 لینکدین</a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             فوتر
+             ============================================================ -->
+        <footer id="footer" class="site-footer">
+            🧑‍💻 diff • diff -u • patch • patch -p1 • diff -r • version control
+        </footer>
+
+    </div> <!-- end .container -->
+
+</body>
+</html>

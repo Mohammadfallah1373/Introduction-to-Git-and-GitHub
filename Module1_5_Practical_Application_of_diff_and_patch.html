@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08111f" />
+    <meta name="description" content="کاربرد عملی diff و patch – رفع باگ در یک اسکریپت واقعی" />
+    <title>کاربرد عملی diff و patch | درسنامه حرفه‌ای</title>
+
+    <!-- فونت فارسی -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" />
+
+    <!-- استایل اصلی -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- نوار پیشرفت -->
+    <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+    <div class="container">
+
+        <!-- نوار بالا -->
+        <nav class="topbar" aria-label="ناوبری سریع درسنامه">
+            <a class="topbar__brand" href="#top">📘 کاربرد diff و patch</a>
+            <div class="topbar__links">
+                <a href="#toc">🗺️ فهرست</a>
+                <a href="#footer">⬇️ پایین صفحه</a>
+            </div>
+        </nav>
+        <div id="top"></div>
+
+        <!-- ============================================================
+             هیرو
+             ============================================================ -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-label">🧑‍💻 Git & Diff Tools</div>
+                <h1>کاربرد عملی <span>diff</span> و <span>patch</span></h1>
+                <p class="hero-subtitle">
+                    با کمک یک سناریوی واقعی، یاد می‌گیریم چطور باگ‌های یک اسکریپت را
+                    پیدا کنیم، آن را تعمیر کنیم و تغییرات را با diff و patch به همکار
+                    خود منتقل کنیم.
+                </p>
+                <div class="hero-badge">📂 diff • patch • sys.exit • disk usage • bug fixing</div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             فهرست مطالب
+             ============================================================ -->
+        <section class="toc" id="toc">
+            <h2>🗺️ مسیر یادگیری کاربرد عملی diff و patch</h2>
+            <ol>
+                <li><a href="#step1">🤝 سناریو: کمک به همکار برای رفع باگ</a></li>
+                <li><a href="#step2">📂 کپی گرفتن از فایل اصلی</a></li>
+                <li><a href="#step3">🐛 باگ اول: return خارج از تابع</a></li>
+                <li><a href="#step4">🔧 رفع باگ اول با sys.exit</a></li>
+                <li><a href="#step5">🐛 باگ دوم: تبدیل دوبرابر به گیگابایت</a></li>
+                <li><a href="#step6">🔧 رفع باگ دوم با اصلاح پارامتر</a></li>
+                <li><a href="#step7">✅ تست نهایی و موفقیت</a></li>
+                <li><a href="#step8">📄 تولید فایل diff و ارسال به همکار</a></li>
+                <li><a href="#step9">🔄 اعمال patch روی فایل اصلی</a></li>
+                <li><a href="#step10">📝 جمع‌بندی و قدم بعدی</a></li>
+            </ol>
+        </section>
+
+        <!-- ============================================================
+             گام ۱
+             ============================================================ -->
+        <section class="section" id="step1">
+            <h2 class="section-title">🤝 گام ۱: سناریو – کمک به همکار برای رفع باگ</h2>
+            <p>
+                تصور کن یک همکار از تو کمک خواسته تا یک اسکریپت به نام
+                <code>disk_usage.py</code> را تعمیر کنی. هدف این اسکریپت این است که
+                بررسی کند چقدر فضای دیسک در حال استفاده است و اگر فضای خالی برای
+                عملکرد عادی خیلی کم بود، یک پیام خطا چاپ کند.
+            </p>
+            <p>
+                اما اسکریپت در حال حاضر <strong>شکست خورده (broken)</strong> است و چند باگ
+                دارد. در این درسنامه، با هم این باگ‌ها را پیدا و رفع می‌کنیم و از
+                ابزارهای <strong>diff</strong> و <strong>patch</strong> استفاده
+                می‌کنیم تا تغییرات را به همکار خود منتقل کنیم.
+            </p>
+            <div class="box note">
+                <p>💡 <strong>نکته:</strong> این یک مثال واقعی از همکاری تیمی در توسعه نرم‌افزار است. با استفاده از diff و patch، می‌توانیم تغییرات را دقیقاً به دیگران منتقل کنیم و از اشتباهات جلوگیری کنیم.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۲
+             ============================================================ -->
+        <section class="section gold" id="step2">
+            <h2 class="section-title">📂 گام ۲: کپی گرفتن از فایل اصلی</h2>
+            <p>
+                قبل از هر تغییری، بهتر است از فایل اصلی <strong>کپی</strong> بگیریم تا
+                یک نسخه دست‌نخورده برای مقایسه داشته باشیم. این کار خیلی مفید است چون
+                بعداً می‌توانیم با استفاده از <code>diff</code>، تغییرات را با نسخه
+                اصلی مقایسه کنیم.
+            </p>
+            <p>برای این کار، از دستور <code>cp</code> (کپی) استفاده می‌کنیم و دو کپی می‌سازیم:</p>
+            <div class="code-block" data-lang="bash">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-bash">$ cp disk_usage.py disk_usage_original.py
+$ cp disk_usage.py disk_usage_fixed.py</code></pre>
+            </div>
+            <ul>
+                <li><strong><code>disk_usage_original.py</code></strong> – نسخه اصلی که <strong>دست نمی‌زنیم</strong> و برای مقایسه استفاده می‌شود.</li>
+                <li><strong><code>disk_usage_fixed.py</code></strong> – نسخه‌ای که روی آن <strong>تغییرات تعمیری</strong> را اعمال می‌کنیم.</li>
+            </ul>
+            <div class="box note">
+                <p>⚡ <strong>ترفند:</strong> همیشه قبل از شروع تغییرات، از فایل اصلی کپی بگیر. این کار به تو امکان می‌دهد هر زمان خواستی، تغییرات را با نسخه اصلی مقایسه کنی و اگر کار به خطا رفت، برگردی به نقطه اول.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۳
+             ============================================================ -->
+        <section class="section red" id="step3">
+            <h2 class="section-title">🐛 گام ۳: باگ اول – return خارج از تابع</h2>
+            <p>بیایید ابتدا اسکریپت را اجرا کنیم تا ببینیم چه خطایی می‌دهد:</p>
+            <div class="code-block" data-lang="bash">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-bash">$ ./disk_usage_fixed.py</code></pre>
+            </div>
+            <div class="code-block" data-lang="plaintext">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-plaintext">File "./disk_usage_fixed.py", line 19
+    return 1
+    ^
+SyntaxError: 'return' outside function</code></pre>
+            </div>
+            <p>
+                مترجم پایتون (Python interpreter) از این خطا ناراضی است! خطا می‌گوید:
+                <strong>«return خارج از تابع»</strong>. یعنی در جای‌ای از کد، از دستور
+                <code>return</code> استفاده شده که <strong>داخل هیچ تابعی</strong> قرار ندارد.
+            </p>
+            <p>
+                همان‌طور که ممکن است به خاطر داشته باشی، در پایتون ما فقط می‌توانیم از
+                دستور <code>return</code> در <strong>داخل توابع</strong> استفاده کنیم.
+                وقتی کد را بررسی می‌کنیم، می‌بینیم که یک <code>return 1</code> و
+                <code>return 0</code> در بخش اصلی اسکریپت (خارج از هر تابعی) قرار گرفته‌اند که این اشتباه است.
+            </p>
+            <div class="box warning">
+                <p>⚠️ <strong>هشدار:</strong> استفاده از <code>return</code> خارج از تابع، یک خطای نحوی (syntax error) محسوب می‌شود و مانع از اجرای اسکریپت می‌شود.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۴
+             ============================================================ -->
+        <section class="section blue" id="step4">
+            <h2 class="section-title">🔧 گام ۴: رفع باگ اول با sys.exit</h2>
+            <p>برای رفع این مشکل، دو راه داریم:</p>
+            <ul>
+                <li><strong>راه اول:</strong> کل کد را داخل یک تابع قرار دهیم و سپس آن تابع را از بخش اصلی صدا بزنیم.</li>
+                <li><strong>راه دوم:</strong> از <code>sys.exit</code> استفاده کنیم تا کد خروج (exit code) اسکریپت را تنظیم کنیم.</li>
+            </ul>
+            <p>در اینجا راه دوم را انتخاب می‌کنیم. برای این کار:</p>
+            <ul>
+                <li>ماژول <code>sys</code> را در ابتدای فایل <strong>وارد (import)</strong> می‌کنیم.</li>
+                <li>دستورهای <code>return 1</code> و <code>return 0</code> را با <code>sys.exit(1)</code> و <code>sys.exit(0)</code> جایگزین می‌کنیم.</li>
+            </ul>
+            <p>
+                <strong>توضیح:</strong> <code>sys.exit()</code> یک تابع است که باعث
+                <strong>پایان یافتن برنامه</strong> با یک کد خروج (exit code) مشخص می‌شود. عدد <code>0</code> معمولاً به معنای «موفقیت» و عدد <code>1</code> به معنای «خطا» است.
+            </p>
+            <div class="box note">
+                <p>📌 <strong>نکته:</strong> استفاده از <code>sys.exit</code> یک روش استاندارد در پایتون برای پایان دادن به برنامه با کد خروج مناسب است.</p>
+            </div>
+            <p>کد اصلاح‌شده به این شکل خواهد بود:</p>
+            <div class="code-block" data-lang="python">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-python">#!/usr/bin/env python3
+
+import shutil
+import sys      # ← ماژول sys اضافه شد
+
+def check_disk_usage(disk, min_absolute, min_percent):
+    """Returns True if there is enough free disk space, false otherwise."""
+    du = shutil.disk_usage(disk)
+    percent_free = 100 * du.free / du.total
+    # ... (بقیه کد)
+
+if not check_disk_usage("/", 2*2**30, 10):
+    print("ERROR: Not enough disk space")
+    sys.exit(1)   # ← به جای return 1
+
+print("Everything ok")
+sys.exit(0)      # ← به جای return 0</code></pre>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۵
+             ============================================================ -->
+        <section class="section orange" id="step5">
+            <h2 class="section-title">🐛 گام ۵: باگ دوم – تبدیل دوبرابر به گیگابایت</h2>
+            <p>حالا بیایید نسخه جدید اسکریپت را اجرا کنیم تا ببینیم چه می‌شود:</p>
+            <div class="code-block" data-lang="bash">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-bash">$ ./disk_usage_fixed.py</code></pre>
+            </div>
+            <div class="code-block" data-lang="plaintext">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-plaintext">ERROR: Not enough disk space</code></pre>
+            </div>
+            <p>
+                خطای نحوی (syntax error) را رفع کردیم، اما الان اسکریپت می‌گوید
+                <strong>«فضای کافی روی دیسک وجود ندارد»</strong>. در حالی که ما می‌دانیم فضای خالی داریم! مشکل از کجاست؟
+            </p>
+            <p>
+                اگر با دقت به کد نگاه کنیم، متوجه می‌شویم که اسکریپت
+                <strong>دو بار</strong> به گیگابایت تبدیل انجام می‌دهد:
+            </p>
+            <ul>
+                <li>تابع <code>check_disk_usage</code> با پارامتر <code>2*2**30</code> صدا زده شده است. (در پایتون، <code>**</code> عملگر توان است و <code>2**30</code> یعنی ۲ به توان ۳۰ که برابر با تعداد بایت‌های یک گیگابایت است. بنابراین <code>2*2**30</code> یعنی <strong>۲ گیگابایت</strong>.)</li>
+                <li>داخل خود تابع <code>check_disk_usage</code> نیز مقدار فضای آزاد را دوباره به گیگابایت تبدیل می‌کند.</li>
+            </ul>
+            <p>
+                یعنی <strong>تبدیل به گیگابایت دو بار</strong> انجام شده است. یک بار در هنگام فراخوانی تابع و یک بار در داخل تابع. این باعث می‌شود که عدد مورد انتظار ۲ گیگابایت، در عمل <strong>خیلی بزرگ‌تر</strong> شود و اسکریپت فکر کند فضای کافی وجود ندارد.
+            </p>
+            <div class="box note">
+                <p>💡 <strong>نکته:</strong> در پایتون، <code>2**30</code> برابر با ۱,۰۷۳,۷۴۱,۸۲۴ بایت (یک گیگابایت) است. پس <code>2*2**30</code> یعنی ۲,۱۴۷,۴۸۳,۶۴۸ بایت یا همان ۲ گیگابایت.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۶
+             ============================================================ -->
+        <section class="section purple" id="step6">
+            <h2 class="section-title">🔧 گام ۶: رفع باگ دوم با اصلاح پارامتر</h2>
+            <p>
+                برای رفع این مشکل، باید <strong>یکی از تبدیل‌ها را حذف کنیم</strong>.
+                بهترین کار این است که نحوه صدا زدن تابع را تغییر دهیم و پارامتر را به شکل درست اصلاح کنیم.
+            </p>
+            <p>
+                با توجه به اینکه تابع <code>check_disk_usage</code> انتظار مقدار
+                <strong>گیگابایت</strong> را دارد (چون داخل تابع، دوباره به گیگابایت تبدیل می‌کند)، باید عدد <code>2</code> را به عنوان پارامتر بدهیم و <strong>تبدیل به بایت را حذف کنیم</strong>.
+            </p>
+            <p>پس خط فراخوانی تابع را از:</p>
+            <div class="code-block" data-lang="python">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-python">if not check_disk_usage("/", 2*2**30, 10):</code></pre>
+            </div>
+            <p>به این شکل تغییر می‌دهیم:</p>
+            <div class="code-block" data-lang="python">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-python">if not check_disk_usage("/", 2, 10):</code></pre>
+            </div>
+            <p>
+                حالا تابع با پارامتر <strong>۲ گیگابایت</strong> صدا زده می‌شود و داخل تابع، این عدد را به درستی با فضای آزاد مقایسه می‌کند.
+            </p>
+            <div class="box note">
+                <p>🧠 <strong>نکته:</strong> دقت کن که تابع <code>check_disk_usage</code> سه پارامتر دارد: <code>disk</code> (مسیر دیسک)، <code>min_absolute</code> (حداقل فضای آزاد بر حسب گیگابایت)، و <code>min_percent</code> (حداقل درصد فضای آزاد).</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۷
+             ============================================================ -->
+        <section class="section green" id="step7">
+            <h2 class="section-title">✅ گام ۷: تست نهایی و موفقیت</h2>
+            <p>حالا بیایید دوباره اسکریپت را اجرا کنیم و ببینیم نتیجه چیست:</p>
+            <div class="code-block" data-lang="bash">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-bash">$ ./disk_usage_fixed.py</code></pre>
+            </div>
+            <div class="code-block" data-lang="plaintext">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-plaintext">Everything ok</code></pre>
+            </div>
+            <p>
+                <strong>عالی!</strong> اسکریپت به درستی کار می‌کند و پیام «همه چیز خوب است» را چاپ می‌کند. یعنی فضای دیسک کافی است و باگ‌ها را به‌درستی رفع کرده‌ایم.
+            </p>
+            <div class="box success">
+                <p>✅ <strong>نتیجه:</strong> با رفع دو باگ – یکی مربوط به استفاده نادرست از <code>return</code> و دیگری مربوط به تبدیل دوبرابر به گیگابایت – اسکریپت به‌درستی اجرا شد.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۸
+             ============================================================ -->
+        <section class="section blue" id="step8">
+            <h2 class="section-title">📄 گام ۸: تولید فایل diff و ارسال به همکار</h2>
+            <p>
+                حالا که اسکریپت را تعمیر کرده‌ایم، باید تغییرات را به همکار خود منتقل
+                کنیم تا او هم بتواند اسکریپت خود را تعمیر کند. برای این کار از تکنیکی
+                که یاد گرفتیم استفاده می‌کنیم: تولید یک <strong>فایل diff</strong> با
+                دستور <code>diff -u</code>.
+            </p>
+            <p>نسخه اصلی (که دست نخورده باقی مانده) را با نسخه تعمیرشده مقایسه می‌کنیم:</p>
+            <div class="code-block" data-lang="bash">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-bash">$ diff -u disk_usage_original.py disk_usage_fixed.py > disk_usage.diff</code></pre>
+            </div>
+            <p>حالا بیایید محتوای فایل diff را با <code>cat</code> ببینیم:</p>
+            <div class="code-block" data-lang="bash">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-bash">$ cat disk_usage.diff</code></pre>
+            </div>
+            <div class="code-block" data-lang="diff">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-diff">--- disk_usage_original.py	2019-06-22 15:13:38.591579963 -0700
++++ disk_usage_fixed.py	2019-06-22 15:41:35.013023839 -0700
+@@ -1,6 +1,7 @@
+ #!/usr/bin/env python3
+
+ import shutil
++import sys
+
+ def check_disk_usage(disk, min_absolute, min_percent):
+     """Returns True if there is enough free disk space, false otherwise."""
+@@ -14,9 +15,9 @@
+     return True
+
+ # Check for at least 2 GB and 10% free
+-if not check_disk_usage("/", 2*2**30, 10):
++if not check_disk_usage("/", 2, 10):
+     print("ERROR: Not enough disk space")
+-    return 1
++    sys.exit(1)
+
+ print("Everything ok")
+-return 0
++sys.exit(0)</code></pre>
+            </div>
+            <p>
+                این فایل diff شامل <strong>همه تغییرات</strong> لازم برای تعمیر اسکریپت است. همکار ما می‌تواند با دریافت این فایل و استفاده از دستور <code>patch</code>، اسکریپت خود را تعمیر کند.
+            </p>
+            <div class="box note">
+                <p>📌 <strong>نکته:</strong> فایل diff دقیقاً نشان می‌دهد که چه چیزی تغییر کرده است: اضافه شدن <code>import sys</code>، اصلاح پارامتر فراخوانی تابع، و جایگزینی <code>return</code> با <code>sys.exit</code>.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۹
+             ============================================================ -->
+        <section class="section purple" id="step9">
+            <h2 class="section-title">🔄 گام ۹: اعمال patch روی فایل اصلی</h2>
+            <p>
+                حالا فرض کن همکار ما فایل diff را دریافت کرده است. چگونه باید آن را
+                روی اسکریپت خودش اعمال کند؟ بسیار ساده! با دستور <code>patch</code>:
+            </p>
+            <div class="code-block" data-lang="bash">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-bash">$ patch disk_usage.py < disk_usage.diff</code></pre>
+            </div>
+            <div class="code-block" data-lang="plaintext">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-plaintext">patching file disk_usage.py</code></pre>
+            </div>
+            <p>
+                با اجرای این دستور، <code>patch</code> تغییرات را روی فایل <code>disk_usage.py</code> اعمال می‌کند. حالا بیایید بررسی کنیم که اسکریپت به‌درستی اجرا می‌شود:
+            </p>
+            <div class="code-block" data-lang="bash">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-bash">$ ./disk_usage.py</code></pre>
+            </div>
+            <div class="code-block" data-lang="plaintext">
+                <div class="code-block__header">
+                    <span class="code-block__lang"></span>
+                    <button class="copy-code" type="button">📋 کپی</button>
+                </div>
+                <pre class="line-numbers"><code class="language-plaintext">Everything ok</code></pre>
+            </div>
+            <p>
+                <strong>موفقیت!</strong> اسکریپت همکار ما نیز با موفقیت تعمیر شد و پیام «همه چیز خوب است» را چاپ کرد.
+            </p>
+            <div class="box success">
+                <p>✅ <strong>نتیجه:</strong> با استفاده از <code>patch</code>، تغییرات را به‌سرعت و بدون خطا روی فایل اصلی اعمال کردیم.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             گام ۱۰
+             ============================================================ -->
+        <section class="section orange" id="step10">
+            <h2 class="section-title">📝 گام ۱۰: جمع‌بندی و قدم بعدی</h2>
+            <p>
+                در این درسنامه، با یک سناریوی واقعی آشنا شدیم و دیدیم که چگونه می‌توان
+                با استفاده از ابزارهای <strong>diff</strong> و <strong>patch</strong>:
+            </p>
+            <ul>
+                <li>📂 <strong>کپی</strong> از فایل اصلی برای مقایسه بگیریم.</li>
+                <li>🐛 <strong>باگ‌ها</strong> را پیدا کنیم و رفع کنیم.</li>
+                <li>📄 یک <strong>فایل diff</strong> تولید کنیم که تمام تغییرات را نشان دهد.</li>
+                <li>🔄 با استفاده از <strong>patch</strong>، تغییرات را روی فایل اصلی اعمال کنیم.</li>
+            </ul>
+            <p>
+                این فرایند هنوز تا حد زیادی <strong>دستی</strong> است، اما درک این
+                مفاهیم پایه، ما را برای ورود به دنیای
+                <strong>سیستم‌های کنترل نسخه (Version Control Systems)</strong> مانند
+                Git آماده می‌کند.
+            </p>
+            <p>
+                در ادامه، یک <strong>خلاصه</strong> از دستوراتی که یاد گرفتیم در اختیار تو قرار می‌گیرد. حتماً آن را مطالعه کن و سپس به سراغ <strong>آزمون تمرینی (practice quiz)</strong> برو تا مطمئن شوی همه مفاهیم را به‌خوبی درک کرده‌ای.
+            </p>
+            <div class="box note">
+                <p>🚀 <strong>قدم بعدی:</strong> در درسنامه‌های آینده، با Git آشنا خواهیم شد که این فرایند را بسیار ساده‌تر و خودکارتر می‌کند.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             دکمه رفتن به جلسه بعدی و بخش اجتماعی
+             ============================================================ -->
+        <div class="box success">
+            <p>🎉 با اتمام این جلسه، شما با کاربرد عملی diff و patch در یک سناریوی واقعی آشنا شدید و گامی مهم به سوی درک سیستم‌های کنترل نسخه برداشتید.</p>
+        </div>
+
+        <div class="buttons" style="margin-top: var(--space-6);">
+            <a class="btn btn-blue" href="Module1_6_Recap_diff_and_patch.html">🚀 رفتن به جلسهٔ بعدی 🚀</a>
+        </div>
+
+        <!-- ============================================================
+             بخش اجتماعی
+             ============================================================ -->
+        <section class="social">
+            <h2>🌐 با ما همراه باشید</h2>
+            <p>برای دریافت آخرین مطالب، پرسش و پاسخ و اطلاع از رویدادهای مرتبط، ما را در شبکه‌های اجتماعی دنبال کنید.</p>
+            <div class="buttons">
+                <a class="btn telegram" href="https://t.me/matcub" target="_blank">📱 تلگرام</a>
+                <a class="btn instagram" href="https://www.instagram.com/matcub_official/" target="_blank">📸 اینستاگرام</a>
+                <a class="btn btn-blue" href="https://www.linkedin.com/in/mohammadfallah1373/" target="_blank">🔗 لینکدین</a>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             فوتر
+             ============================================================ -->
+        <footer id="footer" class="site-footer">
+            🧑‍💻 diff • patch • sys.exit • disk usage • bug fixing • version control
+        </footer>
+
+    </div> <!-- end .container -->
+
+    <!-- Prism.js و پلاگین‌ها (برای شماره‌خط و هایلایت) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!-- اضافه کردن پشتیبانی از diff -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-diff.min.js"></script>
+
+    <!-- اسکریپت کپی -->
+    <script>
+        document.addEventListener("click", async function (event) {
+            const button = event.target.closest(".copy-code");
+            if (!button) return;
+
+            const codeBlock = button.closest(".code-block");
+            const code = codeBlock?.querySelector("pre code");
+            if (!code) return;
+
+            const originalText = button.textContent;
+
+            try {
+                await navigator.clipboard.writeText(code.innerText);
+                markCopied();
+            } catch (error) {
+                const range = document.createRange();
+                range.selectNodeContents(code);
+
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+                try {
+                    document.execCommand("copy");
+                    markCopied();
+                } catch (fallbackError) {
+                    button.textContent = "❌ کپی نشد";
+                    setTimeout(() => (button.textContent = originalText), 1800);
+                }
+
+                selection.removeAllRanges();
+            }
+
+            function markCopied() {
+                button.textContent = "✅ کپی شد";
+                button.classList.add("is-copied");
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove("is-copied");
+                }, 1800);
+            }
+        });
+    </script>
+</body>
+</html>

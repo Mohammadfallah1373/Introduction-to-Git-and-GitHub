@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Quiz – Patch & Diff</title>
+    <link rel="stylesheet" href="test.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ============================================================
+         QUIZ SECTION
+         ============================================================ -->
+    <div class="quiz-container">
+
+        <header class="quiz-header">
+            <div class="quiz-badge">✦ Practice Mode</div>
+            <h1>Patch & Diff Quiz</h1>
+            <p>Choose the best answer. Your answer will be checked immediately.</p>
+        </header>
+
+        <!-- ================= QUESTION 1 ================= -->
+        <section class="question-card"
+                 data-correct="B"
+                 data-explanation="The patch command with the file to be patched, followed by the filename of the patch, will apply it.">
+            <div class="question-number">QUESTION 01</div>
+            <h2 class="question-text">Your colleague sent you a patch called fix_names.patch, which fixes a config file called fix_names.conf. What command do you need to run to apply the patch to the config file?</h2>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="q1-a" name="question-1" value="A">
+                    <label for="q1-a">
+                        <span class="option-letter">A</span>
+                        <span class="option-text">diff names.conf fix_names.conf</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q1-b" name="question-1" value="B">
+                    <label for="q1-b">
+                        <span class="option-letter">B</span>
+                        <span class="option-text">patch fix_names.conf &lt; fix_names.patch</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q1-c" name="question-1" value="C">
+                    <label for="q1-c">
+                        <span class="option-letter">C</span>
+                        <span class="option-text">patch fix_names.conf names.conf</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q1-d" name="question-1" value="D">
+                    <label for="q1-d">
+                        <span class="option-letter">D</span>
+                        <span class="option-text">diff names.conf_orig names.conf_fixed &gt; fix_names.conf</span>
+                    </label>
+                </div>
+            </div>
+            <div class="explanation">
+                <div class="explanation-title">💡 Quick Explanation</div>
+                <p></p>
+            </div>
+        </section>
+
+        <!-- ================= QUESTION 2 ================= -->
+        <section class="question-card"
+                 data-correct="C"
+                 data-explanation="The diff command allows you to save the comparison between files as a diff file you can send to your friend.">
+            <div class="question-number">QUESTION 02</div>
+            <h2 class="question-text">You're helping a friend with a bug in a script called fix_permissions.py, which fixes the permissions of a bunch of files. To work on the file, you make a copy and call it fix_permissions_modified.py. What command do you need to run after solving the bug to send the patch to your friend?</h2>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="q2-a" name="question-2" value="A">
+                    <label for="q2-a">
+                        <span class="option-letter">A</span>
+                        <span class="option-text">patch fix_permissions.py &lt; fix_permissions_modified.py</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q2-b" name="question-2" value="B">
+                    <label for="q2-b">
+                        <span class="option-letter">B</span>
+                        <span class="option-text">diff fix_permissions.py fix_permissions.diff</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q2-c" name="question-2" value="C">
+                    <label for="q2-c">
+                        <span class="option-letter">C</span>
+                        <span class="option-text">diff fix_permissions.py fix_permissions_modified.py &gt; fix_permissions.diff</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q2-d" name="question-2" value="D">
+                    <label for="q2-d">
+                        <span class="option-letter">D</span>
+                        <span class="option-text">patch fix_permissions.py &gt; fix_permissions.patch</span>
+                    </label>
+                </div>
+            </div>
+            <div class="explanation">
+                <div class="explanation-title">💡 Quick Explanation</div>
+                <p></p>
+            </div>
+        </section>
+
+        <!-- ================= QUESTION 3 ================= -->
+        <section class="question-card"
+                 data-correct="A"
+                 data-explanation="The wdiff command highlights word-level changes instead of line-by-line differences, unlike diff -u which compares line by line.">
+            <div class="question-number">QUESTION 03</div>
+            <h2 class="question-text">The _____ command highlights the words that changed in a file instead of working line by line.</h2>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="q3-a" name="question-3" value="A">
+                    <label for="q3-a">
+                        <span class="option-letter">A</span>
+                        <span class="option-text">wdiff</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q3-b" name="question-3" value="B">
+                    <label for="q3-b">
+                        <span class="option-letter">B</span>
+                        <span class="option-text">patch</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q3-c" name="question-3" value="C">
+                    <label for="q3-c">
+                        <span class="option-letter">C</span>
+                        <span class="option-text">diff -u</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q3-d" name="question-3" value="D">
+                    <label for="q3-d">
+                        <span class="option-letter">D</span>
+                        <span class="option-text">diff</span>
+                    </label>
+                </div>
+            </div>
+            <div class="explanation">
+                <div class="explanation-title">💡 Quick Explanation</div>
+                <p></p>
+            </div>
+        </section>
+
+        <!-- ================= QUESTION 4 ================= -->
+        <section class="question-card"
+                 data-correct="B"
+                 data-explanation="A script can use sys.exit from the sys module to finish processing and return a number as the script's return code.">
+            <div class="question-number">QUESTION 04</div>
+            <h2 class="question-text">How can we choose the return value our script returns when it finishes?</h2>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="q4-a" name="question-4" value="A">
+                    <label for="q4-a">
+                        <span class="option-letter">A</span>
+                        <span class="option-text">Use the patch command</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q4-b" name="question-4" value="B">
+                    <label for="q4-b">
+                        <span class="option-letter">B</span>
+                        <span class="option-text">Using the exit command from the sys module</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q4-c" name="question-4" value="C">
+                    <label for="q4-c">
+                        <span class="option-letter">C</span>
+                        <span class="option-text">Use the diff command</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q4-d" name="question-4" value="D">
+                    <label for="q4-d">
+                        <span class="option-letter">D</span>
+                        <span class="option-text">Use meld</span>
+                    </label>
+                </div>
+            </div>
+            <div class="explanation">
+                <div class="explanation-title">💡 Quick Explanation</div>
+                <p></p>
+            </div>
+        </section>
+
+        <!-- ================= QUESTION 5 ================= -->
+        <section class="question-card"
+                 data-correct="C"
+                 data-explanation="We need a diff file (produced by diff command) along with the original file to apply changes using patch.">
+            <div class="question-number">QUESTION 05</div>
+            <h2 class="question-text">In addition to the original files, what else do we need before we can use the patch command?</h2>
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="q5-a" name="question-5" value="A">
+                    <label for="q5-a">
+                        <span class="option-letter">A</span>
+                        <span class="option-text">Full copy of the new files</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q5-b" name="question-5" value="B">
+                    <label for="q5-b">
+                        <span class="option-letter">B</span>
+                        <span class="option-text">exit command of the sys module</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q5-c" name="question-5" value="C">
+                    <label for="q5-c">
+                        <span class="option-letter">C</span>
+                        <span class="option-text">Diff file</span>
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="q5-d" name="question-5" value="D">
+                    <label for="q5-d">
+                        <span class="option-letter">D</span>
+                        <span class="option-text">Version control</span>
+                    </label>
+                </div>
+            </div>
+            <div class="explanation">
+                <div class="explanation-title">💡 Quick Explanation</div>
+                <p></p>
+            </div>
+        </section>
+
+        <!-- RESULT -->
+        <div class="quiz-result" id="quizResult">
+            <div class="score">
+                <span id="scoreNumber">0</span>%
+            </div>
+            <div class="result-text" id="resultText">Keep practicing!</div>
+            <button class="reset-btn" onclick="resetQuiz()">Try Again</button>
+        </div>
+
+    </div> <!-- end .quiz-container -->
+
+    <!-- ============================================================
+         NEXT LESSON BUTTON (Persian)
+         ============================================================ -->
+    <div class="buttons">
+        <a class="btn btn-blue" href="Module1_8_What_is_version_control.html">🚀 رفتن به جلسهٔ بعدی 🚀</a>
+    </div>
+
+    <!-- ============================================================
+         SOCIAL SECTION (Persian)
+         ============================================================ -->
+    <section class="social">
+        <h2>🌐 با ما همراه باشید</h2>
+        <p>برای دریافت آخرین مطالب، پرسش و پاسخ و اطلاع از رویدادهای مرتبط، ما را در شبکه‌های اجتماعی دنبال کنید.</p>
+        <div class="buttons">
+            <a class="btn telegram" href="https://t.me/matcub" target="_blank">📱 تلگرام</a>
+            <a class="btn instagram" href="https://www.instagram.com/matcub_official/" target="_blank">📸 اینستاگرام</a>
+            <a class="btn btn-blue" href="https://www.linkedin.com/in/mohammadfallah1373/" target="_blank">🔗 لینکدین</a>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="site-footer">
+        📘 Practice Quiz – Patch & Diff
+    </footer>
+
+</div> <!-- end .container -->
+
+<script>
+    (function() {
+        const questions = document.querySelectorAll(".question-card");
+        let answeredQuestions = 0;
+        let correctAnswers = 0;
+
+        questions.forEach(question => {
+            const isMultiple = question.dataset.multiple === "true";
+            const inputs = question.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            const correctAnswer = question.dataset.correct;
+            const explanation = question.querySelector(".explanation");
+            const explanationText = explanation.querySelector("p");
+
+            let submitBtn = question.querySelector('.submit-answer-btn');
+            if (isMultiple && !submitBtn) {
+                submitBtn = document.createElement('button');
+                submitBtn.type = 'button';
+                submitBtn.className = 'submit-answer-btn';
+                submitBtn.textContent = 'Submit Answer';
+                question.querySelector('.options').after(submitBtn);
+            }
+
+            function checkAnswer() {
+                inputs.forEach(inp => inp.disabled = true);
+
+                const selectedValues = Array.from(inputs)
+                    .filter(inp => inp.checked)
+                    .map(inp => inp.value);
+
+                const correctValues = correctAnswer.split(',').map(s => s.trim());
+
+                inputs.forEach(inp => {
+                    const optionBox = inp.closest('.option');
+                    const isCorrect = correctValues.includes(inp.value);
+                    if (isCorrect) {
+                        optionBox.classList.add('correct');
+                    } else if (inp.checked && !isCorrect) {
+                        optionBox.classList.add('wrong');
+                    }
+                });
+
+                const isFullyCorrect =
+                    selectedValues.length === correctValues.length &&
+                    selectedValues.every(v => correctValues.includes(v));
+
+                if (isFullyCorrect) {
+                    correctAnswers++;
+                }
+
+                answeredQuestions++;
+
+                explanationText.textContent = question.dataset.explanation;
+                explanation.classList.add('show');
+
+                if (submitBtn) submitBtn.disabled = true;
+
+                if (answeredQuestions === questions.length) {
+                    showResult();
+                }
+            }
+
+            if (!isMultiple) {
+                inputs.forEach(input => {
+                    input.addEventListener('change', function() {
+                        if (this.disabled) return;
+                        checkAnswer();
+                    });
+                });
+            } else {
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', function() {
+                        const anyChecked = Array.from(inputs).some(inp => inp.checked);
+                        if (!anyChecked) {
+                            alert('Please select at least one option.');
+                            return;
+                        }
+                        if (this.disabled) return;
+                        checkAnswer();
+                    });
+                }
+            }
+        });
+
+        function showResult() {
+            const result = document.getElementById('quizResult');
+            const scoreNumber = document.getElementById('scoreNumber');
+            const resultText = document.getElementById('resultText');
+
+            const percentage = Math.round((correctAnswers / questions.length) * 100);
+            scoreNumber.textContent = percentage;
+
+            if (percentage === 100) {
+                resultText.textContent = "Perfect! Excellent work.";
+            } else if (percentage >= 70) {
+                resultText.textContent = "Great job! Keep practicing.";
+            } else {
+                resultText.textContent = "Keep practicing. You can do better!";
+            }
+
+            result.classList.add('show');
+            result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        window.resetQuiz = function() {
+            answeredQuestions = 0;
+            correctAnswers = 0;
+
+            questions.forEach(question => {
+                const inputs = question.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+                inputs.forEach(inp => {
+                    inp.checked = false;
+                    inp.disabled = false;
+                });
+
+                question.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('correct', 'wrong');
+                });
+
+                const expl = question.querySelector('.explanation');
+                if (expl) expl.classList.remove('show');
+
+                const btn = question.querySelector('.submit-answer-btn');
+                if (btn) btn.disabled = false;
+            });
+
+            document.getElementById('quizResult').classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    })();
+</script>
+
+</body>
+</html>
